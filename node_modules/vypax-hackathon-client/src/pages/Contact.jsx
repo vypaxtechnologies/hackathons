@@ -202,7 +202,7 @@ export default function Contact() {
                     required
                     autoComplete="tel"
                     maxLength={20}
-                    pattern="[\d\s+()-]+"
+                    pattern="[0-9+\s()\-]+"
                     title="Digits, spaces, brackets, dashes and an optional leading + only."
                     className="w-full rounded-xl border border-white/[0.08] bg-ink-950/60 px-4 py-3 text-base text-mist-100 placeholder-mist-500 transition-colors focus:border-lime-400 focus:outline-none focus:ring-1 focus:ring-lime-400/20"
                     placeholder="+91 98765 43210"
