@@ -22,11 +22,11 @@ const ICON_MAP = {
   DoorOpen: '🚪'
 }
 
-// Hero background video, served from `public/`. A still image is set as the
-// poster so the section renders immediately and still looks right for anyone
-// who has `prefers-reduced-motion` enabled or the video fails to load.
+// Hero background video, served from `public/`. There is no poster image: a
+// poster that referenced a file which did not exist caused a 404 on every
+// page load. Without one the section shows the ink background and the gradient
+// overlays below until the video decodes, which is the same visual either way.
 const HERO_VIDEO = '/Herovideo.mp4'
-const HERO_POSTER = '/og-cover.jpg'
 
 // Hero primary CTA routes to the hackathons listing so people can browse
 // every edition before registering.
@@ -51,7 +51,6 @@ export default function Home() {
           loop
           playsInline
           preload="metadata"
-          poster={HERO_POSTER}
           onCanPlay={handleCanPlay}
           aria-hidden="true"
           tabIndex={-1}

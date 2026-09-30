@@ -5,20 +5,27 @@ import { SITE } from '../config/site'
  * Declarative per-page SEO. Sets the document title plus description,
  * Open Graph, Twitter and canonical tags for the active route.
  *
+ * `image` is optional and defaults to none. There is deliberately no bundled
+ * fallback: a default that points at a file which may not exist produces a 404
+ * in the console on every page load, and a 404 in the crawler's log for a
+ * social preview image that renders as a broken card. Pass a real absolute
+ * path per page when one is available, or omit it and no image tag is emitted.
+ *
  * Usage: useDocumentMeta({ title, description, path, image, type })
  */
 export default function useDocumentMeta({
   title,
   description = SITE.description,
   path = '',
-  image = '/og-cover.jpg',
+  image,
   type = 'website',
   noIndex = false
 } = {}) {
   useEffect(() => {
     const fullTitle = title ? `${title} | Vypax EdTech & Hackathons` : SITE.productName
     const canonicalUrl = `${SITE.url.replace(/\/$/, '')}${path}`
-    const absoluteImage = image.startsWith('http') ? image : `${SITE.url.replace(/\/$/, '')}${image}`
+    const siteRoot = SITE.url.replace(/\/$/, '')
+    const absoluteImage = image ? (image.startsWith('http') ? image : `${siteRoot}${image}`) : ''
 
     document.title = fullTitle
 
@@ -29,13 +36,17 @@ export default function useDocumentMeta({
     setMeta('property', 'og:description', description)
     setMeta('property', 'og:type', type)
     setMeta('property', 'og:url', canonicalUrl)
-    setMeta('property', 'og:image', absoluteImage)
     setMeta('property', 'og:site_name', SITE.productName)
+    // Image tags are skipped entirely when no image is supplied, rather than
+    // being written with an empty content value that crawlers would fetch.
+    if (absoluteImage) setMeta('property', 'og:image', absoluteImage)
 
-    setMeta('name', 'twitter:card', 'summary_large_image')
     setMeta('name', 'twitter:title', fullTitle)
     setMeta('name', 'twitter:description', description)
-    setMeta('name', 'twitter:image', absoluteImage)
+    if (absoluteImage) {
+      setMeta('name', 'twitter:card', 'summary_large_image')
+      setMeta('name', 'twitter:image', absoluteImage)
+    }
 
     setLink('canonical', canonicalUrl)
   }, [title, description, path, image, type, noIndex])

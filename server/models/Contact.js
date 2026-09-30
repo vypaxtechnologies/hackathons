@@ -22,7 +22,7 @@ const contactSchema = new mongoose.Schema({
     required: [true, 'Phone number is required'],
     trim: true,
     maxlength: [20, 'Phone number cannot exceed 20 characters'],
-    match: [/^[0-9+\s()\-]+$/, 'Please provide a valid phone number']
+    match: [/^[0-9+\s\(\)\-]+$/, 'Please provide a valid phone number']
   },
   subject: {
     type: String,

@@ -123,7 +123,7 @@ export const contactValidation = [
     .bail()
     .isLength({ max: 20 })
     .withMessage('Phone number cannot exceed 20 characters')
-    .matches(/^[0-9+\s()\-]+$/)
+    .matches(/^[0-9+\s\(\)\-]+$/)
     .withMessage('Please provide a valid phone number'),
   body('subject').optional().trim().isLength({ max: 140 }),
   body('message').trim().isLength({ min: 10, max: 2000 })
