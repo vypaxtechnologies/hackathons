@@ -14,14 +14,15 @@ const contactSchema = new mongoose.Schema({
     trim: true,
     match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email']
   },
-  // Optional: plenty of enquiries only need an email reply, so the field is
-  // never required. Digits, spaces and the usual separators are accepted;
-  // anything else is rejected so the value stays dialable.
+  // Required: a phone number is now compulsory so every enquiry can be followed
+  // up by call, not just email. Digits, spaces and the usual separators are
+  // accepted; anything else is rejected so the value stays dialable.
   phone: {
     type: String,
+    required: [true, 'Phone number is required'],
     trim: true,
     maxlength: [20, 'Phone number cannot exceed 20 characters'],
-    match: [/^[\d\s+()-]*$/, 'Please provide a valid phone number']
+    match: [/^[\d\s+()-]+$/, 'Please provide a valid phone number']
   },
   subject: {
     type: String,

@@ -75,6 +75,14 @@ export default function Contact() {
 
     const subject = isCustomSubject ? formData.customSubject.trim() : selectedSubject.label
 
+    // The native `required` attribute only rejects a truly empty field, so a
+    // value of spaces still gets through the browser. The server trims before
+    // validating and would reject it, so check the trimmed value here to keep
+    // the visitor on the page instead of bouncing off a failed request.
+    if (!formData.phone.trim()) {
+      setError('Please add a phone number so we can call you back.')
+      return
+    }
     if (!subject) {
       setError('Please add a short subject so we know where to route this.')
       return
@@ -183,8 +191,7 @@ export default function Contact() {
                     htmlFor="phone"
                     className="mb-2 block text-sm font-medium text-mist-200"
                   >
-                    Phone number{' '}
-                    <span className="font-normal text-mist-500">(optional)</span>
+                    Phone number <span className="text-coral-400">*</span>
                   </label>
                   <input
                     type="tel"
@@ -192,9 +199,10 @@ export default function Contact() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    required
                     autoComplete="tel"
                     maxLength={20}
-                    pattern="[\d\s+()-]*"
+                    pattern="[\d\s+()-]+"
                     title="Digits, spaces, brackets, dashes and an optional leading + only."
                     className="w-full rounded-xl border border-white/[0.08] bg-ink-950/60 px-4 py-3 text-base text-mist-100 placeholder-mist-500 transition-colors focus:border-lime-400 focus:outline-none focus:ring-1 focus:ring-lime-400/20"
                     placeholder="+91 98765 43210"

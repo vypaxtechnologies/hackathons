@@ -1,5 +1,4 @@
 import {
-  HOME_STATS,
   WHY_PARTICIPATE,
   COURSES,
   COURSE_BATCHES
@@ -9,10 +8,10 @@ import Reveal from '../components/ui/Reveal'
 import SectionHeading from '../components/ui/SectionHeading'
 import Button from '../components/ui/Button'
 import ParticipationSteps from '../components/home/ParticipationSteps'
+import RotatingHighlights from '../components/home/RotatingHighlights'
 import HackathonCard from '../components/hackathons/HackathonCard'
 import { EDITION_SUMMARIES } from '../config/editions'
 import { ArrowUpRight, CalendarClock, Clock } from 'lucide-react'
-import cn from '../utils/classNames'
 
 const ICON_MAP = {
   Hammer: '🔨',
@@ -69,7 +68,7 @@ export default function Home() {
         <div className="container-page">
           <div className="mx-auto max-w-3xl text-center">
             <Reveal className="flex items-center justify-center gap-2 text-lime-400 mb-6">
-              <span className="font-mono text-xs tracking-widest uppercase">Hackathon November 2026</span>
+              <span className="font-mono text-xs tracking-widest uppercase">All India Hackathons</span>
             </Reveal>
             <Reveal delay={0.1} as="h1" className="font-display text-4xl font-bold text-mist-100 sm:text-5xl lg:text-6xl leading-tight">
               Build. Compete. Innovate.
@@ -99,73 +98,7 @@ export default function Home() {
           <h2 id="stats-heading" className="sr-only">
             Hackathon, partner and training highlights
           </h2>
-          {/* Below `lg` the cards become a single snap-scrolling row so all
-              three stay reachable on small screens. The negative inline margin
-              lets the scroller bleed to the viewport edge, and the padding is
-              moved onto the children so the first and last card still align
-              with the page gutter. The scrollbar is hidden; the track still
-              scrolls by touch, wheel and keyboard. */}
-          <div className="no-scrollbar -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 sm:-mx-6 sm:px-6 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-x-visible lg:px-0">
-            {HOME_STATS.map((card, index) => (
-              <Reveal
-                key={card.id}
-                delay={index * 0.08}
-                as="article"
-                className={cn(
-                  'flex w-[85vw] max-w-sm shrink-0 snap-center flex-col rounded-2xl border p-5 sm:p-6 lg:w-auto lg:max-w-none',
-                  card.badge
-                    ? 'border-lime-400/30 bg-lime-400/[0.05]'
-                    : 'border-white/[0.08] bg-ink-900/50'
-                )}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-mist-500">
-                      {card.eyebrow}
-                    </p>
-                    <h3 className="mt-1.5 font-display text-lg font-semibold text-mist-100 sm:text-xl">
-                      {card.title}
-                    </h3>
-                  </div>
-                  {card.badge && (
-                    <span className="shrink-0 rounded-full bg-lime-400 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink-950">
-                      {card.badge}
-                    </span>
-                  )}
-                </div>
-
-                <p className="mt-2.5 text-sm leading-relaxed text-mist-400">{card.description}</p>
-
-                <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-white/[0.07] pt-5">
-                  {card.facts.map((fact) => (
-                    <div key={fact.id}>
-                      <dt className="font-display text-2xl font-bold text-lime-400 sm:text-3xl">
-                        {fact.value}
-                      </dt>
-                      <dd className="mt-1 text-xs font-medium text-mist-200">{fact.label}</dd>
-                      <dd className="mt-0.5 text-[11px] text-mist-500">{fact.sub}</dd>
-                    </div>
-                  ))}
-                </dl>
-
-                <div className="mt-auto flex flex-wrap items-center gap-2 pt-5">
-                  <Button variant="secondary" size="sm" to={card.to} iconRight={ArrowUpRight}>
-                    {card.actionLabel}
-                  </Button>
-                  {card.secondaryAction && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      to={card.secondaryAction.to}
-                      iconRight={ArrowUpRight}
-                    >
-                      {card.secondaryAction.label}
-                    </Button>
-                  )}
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <RotatingHighlights />
         </section>
 
         <section className="container-page py-12 sm:py-16" aria-labelledby="editions-heading">

@@ -222,57 +222,6 @@ export const hackathon2026Theme = {
   ]
 }
 
-/** Published FAQ entries for the 2026 edition. */
-export const hackathon2026Faqs = [
-  {
-    id: 'faq-who',
-    question: 'Who can participate?',
-    answer: 'Eligibility details will be announced by the organizers.'
-  },
-  {
-    id: 'faq-team-size',
-    question: 'What is the team size?',
-    answer: 'Teams can have 2–4 members.'
-  },
-  {
-    id: 'faq-register',
-    question: 'How do I register?',
-    answer:
-      'Registration can be completed using the official Apply Now Google Form. Use the Apply Now ' +
-      'button on this page to open it in a new tab.'
-  },
-  {
-    id: 'faq-deadline',
-    question: 'What is the registration deadline?',
-    answer: '31 October 2026.'
-  },
-  {
-    id: 'faq-final-duration',
-    question: 'What is the final round duration?',
-    answer: '24 hours.'
-  },
-  {
-    id: 'faq-theme',
-    question: 'What is the hackathon theme?',
-    answer: 'App & Web Development.'
-  },
-  {
-    id: 'faq-certificates',
-    question: 'Will participants receive certificates?',
-    answer:
-      'Yes. The top 30 teams receive a hard copy certificate, the top 20 teams receive a medal ' +
-      'along with the certificate, and the top 3 teams receive a trophy, medal and certificate.'
-  },
-  {
-    id: 'faq-internship',
-    question: 'Is the internship guaranteed?',
-    answer:
-      'No. The top 7 teams receive an opportunity to participate in the Vypax EdTech & Hackathons ' +
-      'internship selection process. It is assessment based — qualification does not ' +
-      'automatically guarantee selection, and only 3–4 candidates may ultimately be selected.'
-  }
-]
-
 /**
  * Hackathon for Professionals — a paid edition running alongside the student
  * track. The schedule, team size and certificate terms below are confirmed by

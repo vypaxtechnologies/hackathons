@@ -16,7 +16,7 @@ export const SITE = {
     'professional developers ship real web and mobile products, compete for prizes and earn ' +
     'recognition from the Vypax engineering team.',
   url: env.VITE_SITE_URL || 'https://hackathon.vypaxtechnologies.com',
-  email: env.VITE_CONTACT_EMAIL || 'vypaxtechnologies@gmail.com',
+  email: env.VITE_CONTACT_EMAIL || 'vypaxtechnologiesindia@gmail.com',
   foundedYear: 2026
 }
 

@@ -21,7 +21,7 @@ import nodemailer from 'nodemailer'
  */
 
 const FROM_ADDRESS = process.env.EMAIL_FROM || 'Vypax EdTech & Hackathons <onboarding@resend.dev>'
-const TO_ADDRESS = process.env.EMAIL_TO || process.env.VITE_CONTACT_EMAIL || 'vypaxtechnologies@gmail.com'
+const TO_ADDRESS = process.env.EMAIL_TO || process.env.VITE_CONTACT_EMAIL || 'vypaxtechnologiesindia@gmail.com'
 
 const SMTP_PORT = Number(process.env.SMTP_PORT) || 465
 

@@ -57,7 +57,7 @@ export default function RegistrationOpenNotifier() {
         const { pathname: currentPath, hash: currentHash } = locationRef.current
 
         if (!isRegistrationSurface(currentPath, currentHash)) {
-          toastRef.current.info(`Registration for ${hackathon2026.title} is open.`, {
+          toastRef.current.info(`for ${hackathon2026.title}.`, {
             title: 'Registrations are open',
             duration: VISIBLE_MS,
             variant: 'prominent',

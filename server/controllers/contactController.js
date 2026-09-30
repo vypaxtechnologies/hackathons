@@ -113,12 +113,14 @@ export const deleteContactMessage = async (req, res, next) => {
 export const contactValidation = [
   body('name').trim().isLength({ min: 1, max: 80 }).withMessage('Name is required'),
   body('email').isEmail().normalizeEmail().withMessage('A valid email is required'),
-  // Optional. Only digits, spaces and the usual separators, so the stored value
-  // is always something a person can dial. Bailing out with a custom message
-  // keeps the response a single readable string like every other rule here.
+  // Required. Only digits, spaces and the usual separators, so the stored value
+  // is always something a person can dial. The length and format rules chain
+  // after the presence check so a blank field reports a single readable message.
   body('phone')
-    .optional({ values: 'falsy' })
     .trim()
+    .notEmpty()
+    .withMessage('Phone number is required')
+    .bail()
     .isLength({ max: 20 })
     .withMessage('Phone number cannot exceed 20 characters')
     .matches(/^[\d\s+()-]+$/)
