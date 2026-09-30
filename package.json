@@ -1,0 +1,26 @@
+{
+  "name": "vypax-hackathon",
+  "version": "1.0.0",
+  "description": "A complete, production-ready hackathon platform for Vypax EdTech & Hackathons using the MERN stack.",
+  "root": true,
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "server": "cd server && npm start",
+    "lint": "cd client && npm run lint && cd ../server && npm run lint",
+    "typecheck": "cd client && npm run typecheck"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
