@@ -1,5 +1,24 @@
 import nodemailer from 'nodemailer'
 
+/**
+ * Transactional email via Nodemailer, delivered through Resend's SMTP service.
+ *
+ * Resend's SMTP endpoint authenticates with the same API key used for the REST
+ * API, so RESEND_API_KEY is the only credential required.
+ *
+ * Every sender is designed to fail soft: a misconfigured key, an unverified
+ * domain or a provider outage must never make a user-facing form submission
+ * fail. Messages are logged and swallowed so the request still succeeds and
+ * the data is still persisted — losing a form submission because of an email
+ * failure would be strictly worse than losing the notification.
+ *
+ * The HTML is deliberately plain: no external CSS, no fonts, no dark theme, no
+ * decorative chrome. Mail clients rewrite aggressively, and the markup below
+ * sticks to inline styles and table layout that Gmail, Outlook and Apple Mail all
+ * render predictably. In particular the message body uses explicit <br> tags
+ * rather than `white-space: pre-wrap`, which Gmail largely ignores and which
+ * would otherwise run every line of a long message together.
+ */
 
 const FROM_ADDRESS = process.env.EMAIL_FROM || 'Vypax EdTech & Hackathons <onboarding@resend.dev>'
 const TO_ADDRESS = process.env.EMAIL_TO || process.env.VITE_CONTACT_EMAIL || 'vypaxtechnologiesindia@gmail.com'
