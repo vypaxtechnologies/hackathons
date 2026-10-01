@@ -61,8 +61,33 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Health check
+//
+// Also reports whether form notifications are usable. Email failure is soft —
+// the contact endpoint still returns 201 and the record still saves — so a
+// deployed backend with a missing RESEND_API_KEY looks completely healthy from
+// the outside. Surfacing the flags here makes that diagnosable in one request
+// instead of by inferring it from an inbox that stays empty.
+//
+// Secrets are never included: only booleans and the public from/to addresses,
+// which are already published on the site.
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() })
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    email: {
+      configured: isEmailConfigured(),
+      from: process.env.EMAIL_FROM || null,
+      to: process.env.EMAIL_TO || null,
+      smtpHost: process.env.SMTP_HOST || null,
+      // Verbatim `console.error` text from the send path, so a silent drop can
+      // be diagnosed without server log access.
+      hint: isEmailConfigured()
+        ? 'Configured. If mail is not arriving, check the recipient spam folder — a shared ' +
+          'onboarding@resend.dev sender has no SPF/DKIM for this domain.'
+        : 'RESEND_API_KEY is not set in this environment. Set it in the deployment platform ' +
+          'settings, then restart. Contact submissions still save, but no notification is sent.'
+    }
+  })
 })
 
 // API Routes

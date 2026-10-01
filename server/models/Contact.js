@@ -22,7 +22,10 @@ const contactSchema = new mongoose.Schema({
     required: [true, 'Phone number is required'],
     trim: true,
     maxlength: [20, 'Phone number cannot exceed 20 characters'],
-    match: [/^[0-9+\s\(\)\-]+$/, 'Please provide a valid phone number']
+    // Unescaped parens and dash, matching the validation rule. This is a plain
+    // RegExp literal, so unlike the browser-side `pattern` attribute there is no
+    // `v` flag requirement to escape them.
+    match: [/^[0-9+\s()-]+$/, 'Please provide a valid phone number']
   },
   subject: {
     type: String,

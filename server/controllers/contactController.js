@@ -116,6 +116,11 @@ export const contactValidation = [
   // Required. Only digits, spaces and the usual separators, so the stored value
   // is always something a person can dial. The length and format rules chain
   // after the presence check so a blank field reports a single readable message.
+  // Unescaped parens and dash: these are plain RegExp literals with no `v` flag,
+  // so the escapes the browser-side `pattern` attribute needs are redundant here.
+  // The client input deliberately differs textually — it is compiled with the
+  // Unicode sets flag, where `(`, `)` and `-` must be escaped. Both forms match
+  // exactly the same set of characters.
   body('phone')
     .trim()
     .notEmpty()
@@ -123,7 +128,7 @@ export const contactValidation = [
     .bail()
     .isLength({ max: 20 })
     .withMessage('Phone number cannot exceed 20 characters')
-    .matches(/^[0-9+\s\(\)\-]+$/)
+    .matches(/^[0-9+\s()-]+$/)
     .withMessage('Please provide a valid phone number'),
   body('subject').optional().trim().isLength({ max: 140 }),
   body('message').trim().isLength({ min: 10, max: 2000 })
