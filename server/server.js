@@ -51,7 +51,7 @@ app.use(
 // CORS
 // --------------------------------------------------
 const allowedOrigins = [
-  'https://hackathons-vypax.vercel.app',
+  process.env.CLIENT_URL,
   'https://vypaxedutech.pages.dev',
   'https://www.vypaxedutech.com',
   'http://localhost:5173'
