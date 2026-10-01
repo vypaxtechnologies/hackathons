@@ -29,8 +29,21 @@ app.use(helmet({
 }))
 
 // CORS
+const allowedOrigins = [
+  'https://hackathons-vypax.vercel.app',
+  'https://vypaxedutech.pages.dev',
+  'https://www.vypaxedutech.com',
+  'http://localhost:5173'
+]
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error(`CORS: Origin ${origin} not allowed`))
+    }
+  },
   credentials: true
 }))
 
