@@ -8,7 +8,7 @@ import {
   hackathonProfessionals,
   hackathon2026Theme,
   hackathon2026Prizes,
-  hackathon2026Recognition,
+  hackathon2026PrizePool,
   hackathonProfessionalsTimeline
 } from '../config/hackathon2026'
 import hackathonService from '../services/hackathonService'
@@ -27,7 +27,7 @@ const STATIC_EDITIONS = {
   [hackathonMarch2027.slug]: hackathonMarch2027
 }
 
-/** Resolves the `icon` name on each recognition tier to a component. */
+/** Resolves the `icon` name on each prize tier to a component. */
 const RECOGNITION_ICONS = {
   Trophy,
   Medal,
@@ -237,84 +237,80 @@ export default function HackathonDetail() {
 
         {isStudentEdition ? (
           <>
-            <section className="mt-14 scroll-mt-28" id="prizes">
+<section className="mt-14 scroll-mt-28" id="prizes">
               <h2 className="font-display text-2xl font-semibold text-mist-100">Prizes</h2>
-              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-                {hackathon2026Prizes.map((prize) => (
-                  <li
-                    key={prize.id}
-                    className="flex items-center justify-between gap-4 rounded-xl border border-white/[0.08] bg-ink-900/50 px-4 py-3"
-                  >
-                    <span className="text-sm font-medium text-mist-200">{prize.rank}</span>
-                    <span className="font-mono text-sm font-bold text-lime-400">{prize.amount}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-10">
-                <h3 className="font-display text-lg font-semibold text-mist-100">
-                  Certificates, medals &amp; trophies
-                </h3>
-                <p className="mt-2 text-sm text-mist-400">
-                  Every team that reaches the final round is recognised. The higher the finish, the
-                  more they take home.
+              <div className="mt-6 flex flex-col gap-2 rounded-2xl border border-lime-400/25 bg-lime-400/[0.06] p-5 sm:flex-row sm:items-center sm:justify-between">
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-mist-500">
+                  {hackathon2026PrizePool.label}
                 </p>
+                <p className="font-display text-3xl font-bold text-lime-400">
+                  {hackathon2026PrizePool.amount}
+                </p>
+                <p className="text-sm text-mist-400">{hackathon2026PrizePool.note}</p>
+              </div>
 
-                <ul className="mt-6 grid gap-4 sm:grid-cols-3">
-                  {hackathon2026Recognition.map((tier, index) => {
-                    const Icon = RECOGNITION_ICONS[tier.icon] || Award
+              <h3 className="mt-10 font-display text-lg font-semibold text-mist-100">
+                What each place takes home
+              </h3>
+              <p className="mt-2 text-sm text-mist-400">
+                Cash goes to the podium, physical awards run down to the tenth place, and every
+                participant receives a certificate.
+              </p>
 
-                    return (
-                      <Reveal
-                        as="li"
-                        key={tier.id}
-                        delay={index * 0.08}
+              <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+                {hackathon2026Prizes.map((tier, index) => {
+                  const Icon = RECOGNITION_ICONS[tier.icon] || Award
+
+                  return (
+                    <Reveal
+                      as="li"
+                      key={tier.id}
+                      delay={index * 0.08}
+                      className={
+                        tier.featured
+                          ? 'relative flex flex-col rounded-2xl border border-lime-400/30 bg-lime-400/[0.06] p-6'
+                          : 'relative flex flex-col rounded-2xl border border-white/[0.08] bg-ink-900/50 p-6'
+                      }
+                    >
+                      {tier.featured && (
+                        <span className="absolute right-5 top-5 rounded-full bg-lime-400 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink-950">
+                          Podium
+                        </span>
+                      )}
+
+                      <div
                         className={
                           tier.featured
-                            ? 'relative flex flex-col rounded-2xl border border-lime-400/30 bg-lime-400/[0.06] p-6'
-                            : 'relative flex flex-col rounded-2xl border border-white/[0.08] bg-ink-900/50 p-6'
+                            ? 'flex h-12 w-12 items-center justify-center rounded-xl bg-lime-400/15 text-lime-400'
+                            : 'flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.05] text-mist-300'
                         }
                       >
-                        {tier.featured && (
-                          <span className="absolute right-5 top-5 rounded-full bg-lime-400 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-ink-950">
-                            Podium
-                          </span>
-                        )}
+                        <Icon className="h-6 w-6" aria-hidden="true" />
+                      </div>
 
-                        <div
-                          className={
-                            tier.featured
-                              ? 'flex h-12 w-12 items-center justify-center rounded-xl bg-lime-400/15 text-lime-400'
-                              : 'flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.05] text-mist-300'
-                          }
-                        >
-                          <Icon className="h-6 w-6" aria-hidden="true" />
-                        </div>
+                      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-mist-500">
+                        {tier.level}
+                      </p>
+                      <p className="mt-1 font-display text-lg font-semibold text-mist-100">
+                        {tier.reward}
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-mist-400">{tier.detail}</p>
 
-                        <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.16em] text-mist-500">
-                          {tier.level}
-                        </p>
-                        <p className="mt-1 font-display text-lg font-semibold text-mist-100">
-                          {tier.reward}
-                        </p>
-                        <p className="mt-2 text-sm leading-relaxed text-mist-400">{tier.detail}</p>
-
-                        <ul className="mt-4 flex flex-wrap gap-1.5">
-                          {tier.includes.map((item) => (
-                            <li
-                              key={item}
-                              className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-[11px] text-mist-300"
-                            >
-                              {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </Reveal>
-                )
-              })}
-            </ul>
-            </div>
-          </section>
+                      <ul className="mt-4 flex flex-wrap gap-1.5">
+                        {tier.includes.map((item) => (
+                          <li
+                            key={item}
+                            className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-1 text-[11px] text-mist-300"
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </Reveal>
+                  )
+                })}
+              </ul>
+            </section>
           </>
         ) : (
           <section className="mt-14 scroll-mt-28" id="prizes">

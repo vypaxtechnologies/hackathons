@@ -54,7 +54,7 @@ export const EDITION_SUMMARIES = [
     registrationFeeNote: hackathon2026.registrationFeeNote,
     highlights: [
       `Entry fee ${hackathon2026.registrationFeeLabel} ${hackathon2026.registrationFeeNote}`,
-      'Prizes up to ₹1,00,000',
+      `Prize pool ${hackathon2026.prizePool}`,
       '24-hour final round'
     ]
   },

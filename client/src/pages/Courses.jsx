@@ -1,5 +1,5 @@
-import { ArrowUpRight, CalendarClock, CheckCircle2, Clock, Code, Presentation, Mic, NotebookPen, ClipboardCheck, MessagesSquare, Briefcase } from 'lucide-react'
-import { COURSES, COURSE_BATCHES, COURSE_INCLUDES } from '../config/content'
+import { ArrowUpRight, Award, CalendarClock, CheckCircle2, Clock, Code, FileQuestion, Presentation, Mic, NotebookPen, ClipboardCheck, MessagesSquare, Briefcase } from 'lucide-react'
+import { COURSES, COURSE_BATCHES, COURSE_INCLUDES, courseContactPath } from '../config/content'
 import SectionHeading from '../components/ui/SectionHeading'
 import Reveal from '../components/ui/Reveal'
 import Button from '../components/ui/Button'
@@ -14,6 +14,8 @@ const COURSE_INCLUDE_ICONS = {
   NotebookPen,
   ClipboardCheck,
   MessagesSquare,
+  FileQuestion,
+  Award,
   Briefcase
 }
 
@@ -50,30 +52,18 @@ export default function Courses() {
         ))}
       </div>
 
-      {/* Below `sm` the cards become a snap-scrolling carousel instead of a
-          single cramped column. The negative margin pulls the track out to the
-          viewport edge so the neighbouring card peeks in and signals that there
-          is more to swipe, then `sm:` restores the normal centred grid. The
-          padding-bottom reserves room for the focus ring of a keyboard-focused
-          card so it is not clipped by the overflow container.
-
-          The track is focusable so it can be scrolled with the arrow keys.
-          Without this a keyboard user reaches the last visible card and has no
-          way to reach the rest, since the scrollbar is hidden. */}
+      {/* A plain responsive grid: every programme is visible at once and there
+          is no swipe track to discover, so no hidden overflow, no focusable
+          carousel and no peek-card padding to maintain. */}
       <div
-        role="group"
-        aria-label="Courses, scroll sideways to see all programmes"
-        tabIndex={0}
-        className="no-scrollbar mt-12 -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4
-          focus:outline-none focus-visible:ring-2 focus-visible:ring-lime-400/60 focus-visible:ring-offset-4 focus-visible:ring-offset-ink-950
-          sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
+        className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
         {COURSES.map((course, index) => (
           <Reveal
             key={course.id}
             delay={index * 0.05}
             as="article"
-            className="flex h-full w-[82%] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-900/50 sm:w-auto"
+            className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-900/50"
           >
             <div className="relative h-40 w-full shrink-0 overflow-hidden">
               <img
@@ -97,15 +87,13 @@ export default function Courses() {
                 {course.duration}
               </p>
 
-              <p className="mt-4 border-t border-white/[0.07] pt-4 font-display text-2xl font-bold text-lime-400">
-                {course.price}
-              </p>
-              <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-mist-500">
-                New price
-              </p>
-
               <div className="mt-auto pt-5">
-                <Button variant="secondary" size="sm" to="/contact" iconRight={ArrowUpRight}>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  to={courseContactPath(course.id)}
+                  iconRight={ArrowUpRight}
+                >
                   Enquire now
                 </Button>
               </div>

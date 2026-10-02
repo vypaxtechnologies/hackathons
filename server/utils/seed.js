@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
+import { pathToFileURL } from 'url'
 import { connectDB } from '../config/db.js'
 import User from '../models/User.js'
 import Judge from '../models/Judge.js'
@@ -55,16 +56,16 @@ const hackathon2026 = {
     }
   ],
   prizes: [
-    { rank: '1st Prize', amount: 100000, description: 'Up to ₹1,00,000' },
-    { rank: '2nd Prize', amount: 50000, description: 'Up to ₹50,000' },
-    { rank: '3rd Prize', amount: 30000, description: 'Up to ₹30,000' },
-    { rank: '4th Prize', amount: 15000, description: 'Up to ₹15,000' },
-    { rank: '5th Prize & Beyond', amount: 5000, description: 'Up to ₹5,000' }
+    { rank: '1st, 2nd & 3rd Prize', amount: 100000, description: 'Cash Prize + Trophy + Certificate (Hard Copy) — total cash pool up to ₹1,00,000' },
+    { rank: '4th & 5th Prize', amount: 0, description: 'Medal + Certificate (Hard Copy)' },
+    { rank: '6th to 10th Prize', amount: 0, description: 'Certificate (Hard Copy)' },
+    { rank: 'All Participants', amount: 0, description: 'Certificate (Soft Copy)' }
   ],
   recognition: [
-    { level: 'Top 30 Teams', teams: 30, reward: 'Hard Copy Certificate' },
-    { level: 'Top 20 Teams', teams: 20, reward: 'Medal + Certificate' },
-    { level: 'Top 3 Teams', teams: 3, reward: 'Trophy + Medal + Certificate' }
+    { level: '1st, 2nd & 3rd Prize', teams: 3, reward: 'Cash Prize + Trophy + Certificate (Hard Copy)' },
+    { level: '4th & 5th Prize', teams: 2, reward: 'Medal + Certificate (Hard Copy)' },
+    { level: '6th to 10th Prize', teams: 5, reward: 'Certificate (Hard Copy)' },
+    { level: 'All Participants', teams: 0, reward: 'Certificate (Soft Copy)' }
   ],
   internshipOpportunity: {
     description:
@@ -139,8 +140,13 @@ const hackathon2026 = {
     {
       question: 'Will participants receive certificates?',
       answer:
-        'Yes. The top 30 teams receive a hard copy certificate, the top 20 teams receive a medal ' +
-        'along with the certificate, and the top 3 teams receive a trophy, medal and certificate.'
+        'Yes. The 1st, 2nd and 3rd placed teams receive a cash prize, a trophy and a hard copy certificate. ' +
+        'The 4th and 5th placed teams receive a medal and a hard copy certificate, teams finishing 6th to ' +
+        '10th receive a hard copy certificate, and every participant receives a soft copy certificate.'
+    },
+    {
+      question: 'What is the total prize pool?',
+      answer: 'Up to ₹1,00,000, shared by the 1st, 2nd and 3rd placed teams. Amounts are "up to" figures.'
     },
     {
       question: 'Is the internship guaranteed?',
@@ -189,6 +195,12 @@ const judgeSeed = [
   }
 ]
 
+/**
+ * The hackathon editions this seed owns, exported so a targeted script can
+ * upsert just the editions without also provisioning admin and judge accounts.
+ */
+export const hackathonSeedData = [hackathon2026, hackathonMarch2027]
+
 const run = async () => {
   await connectDB()
 
@@ -221,7 +233,7 @@ const run = async () => {
   }
 
   // Hackathons
-  for (const data of [hackathon2026, hackathonMarch2027]) {
+  for (const data of hackathonSeedData) {
     const existing = await Hackathon.findOne({ slug: data.slug })
     if (existing) {
       await Hackathon.findByIdAndUpdate(existing._id, data, { new: true, runValidators: true })
@@ -237,8 +249,14 @@ const run = async () => {
   process.exit(0)
 }
 
-run().catch(async (error) => {
-  console.error('Seed failed:', error)
-  await mongoose.connection.close()
-  process.exit(1)
-})
+// Only seed when this file is executed directly. Importing it for the exported
+// edition data must not provision accounts or write to the database.
+const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+
+if (isDirectRun) {
+  run().catch(async (error) => {
+    console.error('Seed failed:', error)
+    await mongoose.connection.close()
+    process.exit(1)
+  })
+}

@@ -6,13 +6,10 @@ import { VypaxLogo } from '../brand/VypaxLogo'
 import Button from '../ui/Button'
 import MobileNavDrawer from './MobileNavDrawer'
 import { PRIMARY_NAV } from '../../config/site'
+import { PARTNER_CONTACT_PATH } from '../../config/content'
 import cn from '../../utils/classNames'
 
 const SCROLL_THRESHOLD = 24
-
-// The partnership call-to-action routes into the hackathons listing rather
-// than jumping straight to an external form.
-const HACKATHON_PATH = '/hackathons'
 
 /**
  * Sticky site navigation. Transparent over the hero, solid once scrolled.
@@ -86,7 +83,7 @@ export default function Navbar() {
             </ul>
 
             <div className="hidden items-center gap-2.5 lg:flex">
-              <Button variant="primary" size="sm" to={HACKATHON_PATH} iconRight={ArrowUpRight}>
+              <Button variant="primary" size="sm" to={PARTNER_CONTACT_PATH} iconRight={ArrowUpRight}>
                 Join as a hackathon partner
               </Button>
             </div>

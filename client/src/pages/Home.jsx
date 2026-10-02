@@ -1,7 +1,8 @@
 import {
   WHY_PARTICIPATE,
   COURSES,
-  COURSE_BATCHES
+  COURSE_BATCHES,
+  courseContactPath
 } from '../config/content'
 import { SITE } from '../config/site'
 import Reveal from '../components/ui/Reveal'
@@ -12,6 +13,7 @@ import RotatingHighlights from '../components/home/RotatingHighlights'
 import HackathonCard from '../components/hackathons/HackathonCard'
 import { EDITION_SUMMARIES } from '../config/editions'
 import { ArrowUpRight, CalendarClock, Clock } from 'lucide-react'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 
 const ICON_MAP = {
   Hammer: '🔨',
@@ -33,6 +35,10 @@ const HERO_VIDEO = '/Herovideo.mp4'
 const HACKATHONS_PATH = '/hackathons'
 
 export default function Home() {
+  useDocumentMeta({
+    description: SITE.description,
+    path: '/'
+  })
   // Honour the OS-level motion preference: pause the loop and leave the poster
   // showing rather than autoplaying a decorative background.
   const handleCanPlay = (event) => {
@@ -136,7 +142,7 @@ export default function Home() {
         >
           <SectionHeading
             eyebrow="Vypax courses"
-            title="Course pricing"
+            title="Training & Courses"
             description="Job-ready programmes built around live builds, mock interviews and placement support."
             headingId="training-heading"
             align="center"
@@ -193,15 +199,13 @@ export default function Home() {
                     {course.duration}
                   </p>
 
-                  <p className="mt-4 border-t border-white/[0.07] pt-4 font-display text-2xl font-bold text-lime-400">
-                    {course.price}
-                  </p>
-                  <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-mist-500">
-                    New price
-                  </p>
-
                   <div className="mt-auto pt-5">
-                    <Button variant="secondary" size="sm" to="/contact" iconRight={ArrowUpRight}>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      to={courseContactPath(course.id)}
+                      iconRight={ArrowUpRight}
+                    >
                       Enquire now
                     </Button>
                   </div>

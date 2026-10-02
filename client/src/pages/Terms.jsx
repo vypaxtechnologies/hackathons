@@ -1,6 +1,15 @@
 import { useNavigate } from 'react-router-dom'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 
 export default function Terms() {
+  useDocumentMeta({
+    title: 'Terms of Service',
+    description:
+      'The terms that apply to using Vypax EdTech & Hackathons, joining an edition or booking a ' +
+      'training programme.',
+    path: '/terms'
+  })
+
   const navigate = useNavigate()
 
   return (

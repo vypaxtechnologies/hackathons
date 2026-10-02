@@ -138,7 +138,7 @@ export default function RotatingHighlights() {
 
               <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-white/[0.07] pt-5">
                 {card.facts.map((fact) => (
-                  <div key={fact.id}>
+                  <div key={fact.id} className={cn(fact.wide && 'col-span-2')}>
                     <dt className="font-display text-2xl font-bold text-lime-400 sm:text-3xl">
                       {fact.value}
                     </dt>

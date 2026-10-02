@@ -27,7 +27,9 @@ export const hackathon2026 = {
   venue: 'Remote',
   registrationFee: 99,
   registrationFeeLabel: '₹99',
-  registrationFeeNote: 'per person'
+  registrationFeeNote: 'per person',
+  prizePoolAmount: '₹1,00,000',
+  prizePool: 'Up to ₹1,00,000'
 }
 
 /**
@@ -86,53 +88,64 @@ export const hackathon2026Timeline = [
 ]
 
 /**
- * Prize tiers. Wording is deliberately qualified with "Up to" exactly as
- * supplied by the organizers — no guarantees beyond that are implied.
+ * Total cash prize pool for the edition, qualified with "Up to" exactly as
+ * supplied by the organizers — no guarantees beyond that are implied. The
+ * individual cash amounts behind the podium places are confirmed closer to the
+ * final round, so they are published as a cash prize rather than a figure.
  */
-export const hackathon2026Prizes = [
-  { id: 'prize-1', rank: '1st Prize', amount: 'Up to ₹1,00,000', tier: 'gold' },
-  { id: 'prize-2', rank: '2nd Prize', amount: 'Up to ₹50,000', tier: 'silver' },
-  { id: 'prize-3', rank: '3rd Prize', amount: 'Up to ₹30,000', tier: 'bronze' },
-  { id: 'prize-4', rank: '4th Prize', amount: 'Up to ₹15,000', tier: 'base' },
-  { id: 'prize-5', rank: '5th Prize & Beyond', amount: 'Up to ₹5,000', tier: 'base' }
-]
+export const hackathon2026PrizePool = {
+  label: 'Total prize pool',
+  amount: hackathon2026.prizePool,
+  note: 'Amounts are published as "up to" figures and are not guaranteed.'
+}
 
 /**
- * Recognition tiers for the final round. These are physical awards, separate
- * from the cash prizes above, so they are presented as their own block.
+ * Prize and recognition tiers for the edition. Cash goes to the podium, and
+ * every finishing position down to the tenth takes home a physical award —
+ * with a soft copy certificate for everyone who takes part.
  *
  * `icon` is a lucide-react icon name resolved in HackathonDetail rather than a
  * bitmap: inline SVG stays crisp, inherits the theme colours and adds no
  * network request or third-party licensing question.
  */
-export const hackathon2026Recognition = [
+export const hackathon2026Prizes = [
   {
-    id: 'recognition-top-3',
-    level: 'Top 3 Teams',
+    id: 'prize-podium',
+    level: '1st, 2nd & 3rd Prize',
     teams: '3',
-    reward: 'Trophy + Medal + Certificate',
-    detail: 'The podium teams receive a trophy, medal and hard copy certificate.',
-    includes: ['Trophy', 'Medal', 'Certificate'],
+    reward: 'Cash Prize + Trophy + Certificate (Hard Copy)',
+    detail:
+      'The three podium teams share the cash prize pool and each receive a trophy along with a hard copy certificate.',
+    includes: ['Cash Prize', 'Trophy', 'Certificate (Hard Copy)'],
     icon: 'Trophy',
     featured: true
   },
   {
-    id: 'recognition-top-20',
-    level: 'Top 20 Teams',
-    teams: '20',
-    reward: 'Medal + Certificate',
-    detail: 'The top twenty teams receive a medal along with their certificate.',
-    includes: ['Medal', 'Certificate'],
+    id: 'prize-4-5',
+    level: '4th & 5th Prize',
+    teams: '2',
+    reward: 'Medal + Certificate (Hard Copy)',
+    detail: 'The fourth and fifth placed teams receive a medal along with a hard copy certificate.',
+    includes: ['Medal', 'Certificate (Hard Copy)'],
     icon: 'Medal'
   },
   {
-    id: 'recognition-top-30',
-    level: 'Top 30 Teams',
-    teams: '30',
-    reward: 'Hard Copy Certificate',
-    detail: 'Every qualifying team that reaches the final round receives a hard copy certificate.',
-    includes: ['Certificate'],
+    id: 'prize-6-10',
+    level: '6th to 10th Prize',
+    teams: '5',
+    reward: 'Certificate (Hard Copy)',
+    detail: 'Teams finishing between sixth and tenth receive a hard copy certificate.',
+    includes: ['Certificate (Hard Copy)'],
     icon: 'ScrollText'
+  },
+  {
+    id: 'prize-participants',
+    level: 'All Participants',
+    teams: 'All',
+    reward: 'Certificate (Soft Copy)',
+    detail: 'Every participant who takes part in the edition receives a soft copy certificate.',
+    includes: ['Certificate (Soft Copy)'],
+    icon: 'Award'
   }
 ]
 

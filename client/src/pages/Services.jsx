@@ -1,5 +1,5 @@
 import { ArrowUpRight, Code, Smartphone, TrendingUp, Bot, UserSearch } from 'lucide-react'
-import { SERVICES } from '../config/content'
+import { SERVICES, serviceContactPath } from '../config/content'
 import SectionHeading from '../components/ui/SectionHeading'
 import Reveal from '../components/ui/Reveal'
 import Button from '../components/ui/Button'
@@ -27,7 +27,9 @@ export default function Services() {
         align="center"
       />
 
-      <div className="no-scrollbar mt-12 -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+      {/* A plain responsive grid: every service is visible at once, so there
+          is no swipe track, hidden overflow or focusable carousel to maintain. */}
+      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {SERVICES.map((service, index) => {
           const Icon = SERVICE_ICONS[service.icon] || Code
 
@@ -36,7 +38,7 @@ export default function Services() {
               key={service.id}
               delay={index * 0.06}
               as="article"
-              className="flex w-[80vw] max-w-xs shrink-0 snap-center flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-900/50"
+              className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-900/50"
             >
               <div className="relative h-32 w-full shrink-0 overflow-hidden">
                 <img
@@ -74,7 +76,12 @@ export default function Services() {
                 </ul>
 
                 <div className="mt-auto pt-5">
-                  <Button variant="secondary" size="sm" to="/contact" iconRight={ArrowUpRight}>
+                  <Button
+                  variant="secondary"
+                  size="sm"
+                  to={serviceContactPath(service.id)}
+                  iconRight={ArrowUpRight}
+                >
                     Request a quote
                   </Button>
                 </div>

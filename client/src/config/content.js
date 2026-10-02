@@ -1,4 +1,5 @@
 import { SITE } from './site'
+import { hackathon2026 } from './hackathon2026'
 import fullStackImg from '../assets/images/courses/fullstack.jpg'
 import frontendImg from '../assets/images/courses/frontend.jpg'
 import backendImg from '../assets/images/courses/backend.jpg'
@@ -13,6 +14,15 @@ import webAppImg from '../assets/images/services/web-app.jpg'
 import digitalMarketingImg from '../assets/images/services/digital-marketing.jpg'
 import aiAutomationImg from '../assets/images/services/ai-automation.jpg'
 import staffingImg from '../assets/images/services/staffing.jpg'
+
+/**
+ * Partnership enquiries. `PARTNER_TOPIC_ID` is the contact-form topic both the
+ * home page card and the navbar call-to-action preselect, so a visitor who
+ * asks to partner with us lands on the contact form with the right subject
+ * already chosen instead of having to pick it again.
+ */
+export const PARTNER_TOPIC_ID = 'topic-partner-with-us'
+export const PARTNER_CONTACT_PATH = `/contact?topic=${PARTNER_TOPIC_ID}`
 
 /**
  * Editorial content shared across public pages. Kept separate from the
@@ -30,8 +40,9 @@ export const HOME_STATS = [
     eyebrow: 'The hackathon',
     title: 'Hackathon November 2026',
     description: 'A month-long build sprint in app and web development, finished by a 24-hour final.',
+    badge: hackathon2026.statusLabel,
     facts: [
-      { id: 'stat-prize', value: '₹2,00,000', label: 'Total prize pool', sub: 'Up to, across tiers' },
+      { id: 'stat-prize', value: hackathon2026.prizePoolAmount, label: 'Total prize pool', sub: 'Up to, across tiers' },
       { id: 'stat-teams', value: '30', label: 'Teams in the final', sub: '24-hour build sprint' },
       { id: 'stat-rounds', value: '4', label: 'Competition stages', sub: 'Register to final' },
       { id: 'stat-team-size', value: '2–4', label: 'Members per team', sub: 'Build together' }
@@ -47,9 +58,16 @@ export const HOME_STATS = [
       'Campus and industry organisations backing the programme, already committed for this edition.',
     facts: [
       { id: 'stat-colleges', value: '20+', label: 'Partner colleges', sub: 'Campus outreach' },
-      { id: 'stat-companies', value: '10+', label: 'Partner companies', sub: 'Hiring & mentoring' }
+      { id: 'stat-companies', value: '10+', label: 'Partner companies', sub: 'Hiring & mentoring' },
+      {
+        id: 'stat-universities',
+        value: '10+',
+        label: 'Partner universities',
+        sub: 'Institutional collaborations',
+        wide: true
+      }
     ],
-    to: '/contact',
+    to: PARTNER_CONTACT_PATH,
     actionLabel: 'Partner with us'
   },
   {
@@ -58,7 +76,6 @@ export const HOME_STATS = [
     title: 'Training programmes',
     description:
       'Structured sessions that run alongside the hackathon, open to students and working professionals.',
-    badge: 'Registration open',
     facts: [
       { id: 'stat-training-batches', value: '3', label: 'Upcoming batches', sub: 'Across both tracks' },
       { id: 'stat-training-mode', value: 'Remote', label: 'Delivery mode', sub: 'Join from anywhere' }
@@ -70,8 +87,9 @@ export const HOME_STATS = [
 ]
 
 /**
- * Vypax course catalogue. Durations and prices are organizer-supplied; the
- * batch start dates below are the two currently published intakes.
+ * Vypax course catalogue. Durations are organizer-supplied; the batch start
+ * dates below are the two currently published intakes. Fees are quoted on
+ * enquiry rather than published.
  */
 export const COURSE_BATCHES = [
   { id: 'batch-dec-2026', label: '15 December 2026', start: '2026-12-15' },
@@ -83,7 +101,6 @@ export const COURSES = [
     id: 'course-fullstack',
     name: 'Full Stack Development',
     duration: '6 Months',
-    price: '₹11,999',
     image: fullStackImg,
     imageAlt: 'Developer workstation showing full stack application source code'
   },
@@ -91,7 +108,6 @@ export const COURSES = [
     id: 'course-frontend',
     name: 'Frontend Development',
     duration: '4 Months',
-    price: '₹6,499',
     image: frontendImg,
     imageAlt: 'Code editor window used for building user interfaces'
   },
@@ -99,7 +115,6 @@ export const COURSES = [
     id: 'course-backend',
     name: 'Backend Development',
     duration: '4 Months',
-    price: '₹6,499',
     image: backendImg,
     imageAlt: 'Screen displaying server-side code for backend development'
   },
@@ -107,7 +122,6 @@ export const COURSES = [
     id: 'course-seo-digital',
     name: 'SEO + Digital Marketing',
     duration: '6 Months',
-    price: '₹11,499',
     image: seoDigitalImg,
     imageAlt: 'Laptop screen showing combined search and marketing analytics'
   },
@@ -115,7 +129,6 @@ export const COURSES = [
     id: 'course-seo',
     name: 'SEO',
     duration: '4 Months',
-    price: '₹6,499',
     image: seoImg,
     imageAlt: 'Search optimisation work viewed on a laptop'
   },
@@ -123,7 +136,6 @@ export const COURSES = [
     id: 'course-digital-marketing',
     name: 'Digital Marketing',
     duration: '4 Months',
-    price: '₹6,499',
     image: marketingImg,
     imageAlt: 'Marketing campaign planning on a laptop screen'
   },
@@ -131,7 +143,6 @@ export const COURSES = [
     id: 'course-data-analyst',
     name: 'Data Analyst',
     duration: '6 Months',
-    price: '₹11,499',
     image: dataAnalystImg,
     imageAlt: 'Data visualisation and charts being analysed on a monitor'
   },
@@ -139,7 +150,6 @@ export const COURSES = [
     id: 'course-dsa',
     name: 'DSA',
     duration: '6 Months',
-    price: '₹17,999',
     image: dsaImg,
     imageAlt: 'Data structures and algorithms worked through on a laptop'
   },
@@ -147,7 +157,6 @@ export const COURSES = [
     id: 'course-mechanical',
     name: 'Mechanical (AutoCAD)',
     duration: '6 Months',
-    price: '₹10,499',
     image: mechanicalImg,
     imageAlt: 'Engineer drafting a mechanical drawing by hand on a blueprint'
   }
@@ -161,6 +170,8 @@ export const COURSE_INCLUDES = [
   { id: 'include-notes', label: 'Notes & handwritten study material', icon: 'NotebookPen' },
   { id: 'include-mocks', label: 'Mock interview tests', icon: 'ClipboardCheck' },
   { id: 'include-interview', label: 'Interview preparation', icon: 'MessagesSquare' },
+  { id: 'include-pyqs', label: 'Repeated PYQs', icon: 'FileQuestion' },
+  { id: 'include-certificate', label: 'Training certificate', icon: 'Award' },
   { id: 'include-placement', label: 'Placement support', icon: 'Briefcase' }
 ]
 
@@ -180,7 +191,7 @@ export const WHY_PARTICIPATE = [
   {
     id: 'why-win',
     title: 'Win',
-    description: 'Get opportunities for prizes and recognition across five prize tiers.',
+    description: 'Get opportunities for prizes and recognition across every finishing position.',
     icon: 'Trophy'
   },
   {
@@ -430,6 +441,12 @@ export const CONTACT_SUBJECTS = [
     icon: 'Handshake'
   },
   {
+    id: PARTNER_TOPIC_ID,
+    label: 'Partner with us',
+    description: 'College, company or community partnership with Vypax.',
+    icon: 'Handshake'
+  },
+  {
     id: 'topic-services',
     label: 'Project or service enquiry',
     description: 'Custom software, web or app work for your organisation.',
@@ -447,6 +464,57 @@ export const CONTACT_SUBJECTS = [
     description: 'Tell us what it is about and we will route it.',
     icon: 'Sparkles'
   }
+]
+
+/**
+ * One dropdown option per published service, derived from SERVICES so a
+ * "Request a quote" click can preselect the exact service the visitor was
+ * looking at. `serviceTopicId` and `serviceContactPath` build the link that
+ * carries that choice through to the contact form.
+ */
+export const serviceTopicId = (serviceId) => `topic-${serviceId}`
+
+export const serviceContactPath = (serviceId) => `/contact?topic=${serviceTopicId(serviceId)}`
+
+export const SERVICE_CONTACT_SUBJECTS = SERVICES.map((service) => ({
+  id: serviceTopicId(service.id),
+  label: service.title,
+  // The dropdown labels these apart from the editorial topics, so a visitor can
+  // see at a glance that the entry came from a service card.
+  optionLabel: `${service.title} — Service`,
+  description: service.summary,
+  icon: service.icon
+}))
+
+/**
+ * One dropdown option per published course, derived from COURSES so an
+ * "Enquire now" click can preselect the exact course the visitor was looking
+ * at, in the same way the service cards link through.
+ */
+export const courseTopicId = (courseId) => `topic-${courseId}`
+
+export const courseContactPath = (courseId) => `/contact?topic=${courseTopicId(courseId)}`
+
+export const COURSE_CONTACT_SUBJECTS = COURSES.map((course) => ({
+  id: courseTopicId(course.id),
+  label: course.name,
+  // Labelled apart from the editorial topics so the dropdown shows where the
+  // entry came from, exactly as the service options do.
+  optionLabel: `${course.name} — Course`,
+  description: `${course.duration} course enquiry.`,
+  icon: 'GraduationCap'
+}))
+
+/**
+ * The full dropdown list: the editorial subjects with the service and course
+ * options slotted in just above the "Something else" escape hatch, so a
+ * preselected card enquiry reads as part of the same list.
+ */
+export const CONTACT_TOPICS = [
+  ...CONTACT_SUBJECTS.slice(0, -1),
+  ...SERVICE_CONTACT_SUBJECTS,
+  ...COURSE_CONTACT_SUBJECTS,
+  CONTACT_SUBJECTS[CONTACT_SUBJECTS.length - 1]
 ]
 
 /**
@@ -470,9 +538,9 @@ export const ABOUT_STATS = [
   },
   {
     id: 'about-stat-prizes',
-    value: '₹2,00,000',
+    value: hackathon2026.prizePoolAmount,
     label: 'Prize pool',
-    sub: 'Across five tiers, up to'
+    sub: 'Across prize tiers, up to'
   },
   {
     id: 'about-stat-colleges',

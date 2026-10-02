@@ -17,6 +17,7 @@ import Button from '../components/ui/Button'
 import Reveal from '../components/ui/Reveal'
 import { FAQ_CATEGORIES } from '../config/faq'
 import { CONTACT_LINKS, CONTACT_PHONES } from '../config/site'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 
 /**
  * Icon names are stored as plain strings in the config so that module stays free
@@ -37,6 +38,14 @@ const ALL_CATEGORIES = 'all'
 const normalise = (value) => value.toLowerCase().trim()
 
 export default function FAQ() {
+  useDocumentMeta({
+    title: 'FAQ',
+    description:
+      'Answers on hackathon participation, prizes and certificates, training batches, services ' +
+      'and how to reach the Vypax team.',
+    path: '/faq'
+  })
+
   const [query, setQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState(ALL_CATEGORIES)
 

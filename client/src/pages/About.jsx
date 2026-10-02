@@ -25,6 +25,7 @@ import {
 } from '../config/content'
 import { CONTACT_LINKS, CONTACT_PHONES } from '../config/site'
 import { hackathon2026 } from '../config/hackathon2026'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 
 const COMMITMENT_ICONS = {
   CalendarCheck,
@@ -45,6 +46,14 @@ const PILLAR_GLYPHS = {
 }
 
 export default function About() {
+  useDocumentMeta({
+    title: 'About',
+    description:
+      'Vypax EdTech & Hackathons runs build-first hackathons, job-ready training and client ' +
+      'engineering work from the same team. Meet the practice, the principles and the commitments.',
+    path: '/about'
+  })
+
   const total = ABOUT_JOURNEY.length
 
   return (

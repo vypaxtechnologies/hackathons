@@ -3,8 +3,17 @@ import SectionHeading from '../components/ui/SectionHeading'
 import HackathonCard from '../components/hackathons/HackathonCard'
 import ApplyNowButton from '../components/common/ApplyNowButton'
 import { EDITION_SUMMARIES } from '../config/editions'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 
 export default function Hackathons() {
+  useDocumentMeta({
+    title: 'Hackathons',
+    description:
+      'Every Vypax EdTech & Hackathons edition — the student track, the professional track and ' +
+      'what is planned next, each with its own theme, schedule and prize pool.',
+    path: '/hackathons'
+  })
+
   return (
     <div className="container-page py-12 sm:py-16">
       <SectionHeading

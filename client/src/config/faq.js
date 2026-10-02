@@ -2,7 +2,7 @@ import {
   hackathon2026,
   hackathon2026Timeline,
   hackathon2026Prizes,
-  hackathon2026Recognition,
+  hackathon2026PrizePool,
   hackathon2026Internship,
   hackathon2026Rules,
   hackathon2026Theme,
@@ -28,7 +28,7 @@ import { SITE } from './site'
 
 const stageById = (id) => hackathon2026Timeline.find((stage) => stage.id === id)
 const ruleById = (id) => hackathon2026Rules.find((rule) => rule.id === id)
-const lowestPrize = hackathon2026Prizes[hackathon2026Prizes.length - 1]
+const prizeSummary = hackathon2026Prizes.map((tier) => `${tier.level}: ${tier.reward}.`).join(' ')
 
 const courseList = COURSES.map((course) => `${course.name} (${course.duration})`).join(', ')
 const batchList = COURSE_BATCHES.map((batch) => batch.label).join(' and ')
@@ -134,13 +134,14 @@ export const FAQ_CATEGORIES = [
         id: 'faq-prizes',
         question: 'What are the prizes?',
         answer:
-          `Prizes run across five tiers, from ${hackathon2026Prizes[0].amount} for the winner down ` +
-          `to ${lowestPrize.amount}. Amounts are published as "up to" figures and are not guaranteed.`
+          `The ${hackathon2026PrizePool.label.toLowerCase()} is ${hackathon2026PrizePool.amount}, shared by ` +
+          `the 1st, 2nd and 3rd placed teams. ${hackathon2026PrizePool.note} ` +
+          `${prizeSummary}`
       },
       {
         id: 'faq-recognition',
         question: 'Do we get a certificate, medal or trophy?',
-        answer: hackathon2026Recognition.map((tier) => `${tier.level}: ${tier.reward}.`).join(' ')
+        answer: prizeSummary
       },
       {
         id: 'faq-internship',
@@ -209,8 +210,8 @@ export const FAQ_CATEGORIES = [
         id: 'faq-includes',
         question: 'What is included with every course?',
         answer:
-          `Every package includes ${includeList}. Courses are priced individually and the current ` +
-          'price is shown on each course card.'
+          `Every package includes ${includeList}. Fees are not published on the site — ask through ` +
+          'the contact form and we will quote the course you are interested in.'
       },
       {
         id: 'faq-hackathon-link',

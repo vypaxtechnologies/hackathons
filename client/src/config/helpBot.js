@@ -2,7 +2,7 @@ import {
   hackathon2026,
   hackathon2026Timeline,
   hackathon2026Prizes,
-  hackathon2026Recognition,
+  hackathon2026PrizePool,
   hackathonProfessionals,
   hackathonProfessionalsTimeline,
   hackathonMarch2027,
@@ -23,7 +23,7 @@ import { CONTACT_LINKS, CONTACT_PHONES } from './site'
  */
 
 const stageById = (id) => hackathon2026Timeline.find((stage) => stage.id === id)
-const lastPrize = hackathon2026Prizes[hackathon2026Prizes.length - 1]
+const prizeSummary = hackathon2026Prizes.map((tier) => `${tier.level}: ${tier.reward}.`).join(' ')
 
 export const HELP_BOT_PROFILE = {
   name: 'Vypax Assistant',
@@ -80,8 +80,8 @@ export const HELP_BOT_ENTRIES = [
     id: 'prizes',
     question: 'What are the prizes?',
     answer:
-      `Prizes run across five tiers, from ${hackathon2026Prizes[0].amount} for the winner down to ` +
-      `${lastPrize.amount}. Amounts are published as "up to" figures and are not guaranteed.`
+      `The ${hackathon2026PrizePool.label.toLowerCase()} is ${hackathon2026PrizePool.amount}, shared by ` +
+      `the 1st, 2nd and 3rd placed teams. ${hackathon2026PrizePool.note} ${prizeSummary}`
   },
   {
     id: 'registration',
@@ -109,7 +109,7 @@ export const HELP_BOT_ENTRIES = [
   {
     id: 'recognition',
     question: 'Do we get a certificate, medal or trophy?',
-    answer: hackathon2026Recognition.map((tier) => `${tier.level}: ${tier.reward}.`).join(' ')
+    answer: prizeSummary
   },
   {
     id: 'submissions',

@@ -16,7 +16,7 @@ export const SITE = {
     'professional developers ship real web and mobile products, compete for prizes and earn ' +
     'recognition from the Vypax engineering team.',
   url: env.VITE_SITE_URL || 'https://hackathon.vypaxtechnologies.com',
-  email: env.VITE_CONTACT_EMAIL || 'vypaxtechnologiesindia@gmail.com',
+  email: env.VITE_CONTACT_EMAIL || 'vypaxtechnologies@gmail.com',
   foundedYear: 2026
 }
 
@@ -47,12 +47,12 @@ const toTelHref = (number) => `tel:${String(number).replace(/[^\d+]/g, '')}`
  * Published phone numbers.
  *
  * Sourced from `VITE_CONTACT_PHONE` (comma separated) rather than hardcoded so
- * the number can be corrected or rotated without touching a component. When
- * nothing is configured the list is empty and every surface that renders it
- * omits the phone row entirely — no placeholder number is ever shown to a
- * visitor.
+ * additional numbers can be added or rotated without touching a component. The
+ * official Vypax line is the fallback, so the phone row is never empty when the
+ * environment variable is unset; values are trimmed, so a trailing space in the
+ * variable is harmless.
  */
-export const CONTACT_PHONES = String(env.VITE_CONTACT_PHONE || '')
+export const CONTACT_PHONES = String(env.VITE_CONTACT_PHONE || '+91 9411550165')
   .split(',')
   .map((value) => value.trim())
   .filter(Boolean)

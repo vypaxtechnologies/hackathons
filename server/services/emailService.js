@@ -5,7 +5,7 @@ const FROM_ADDRESS =
 const TO_ADDRESS =
   process.env.EMAIL_TO ||
   process.env.VITE_CONTACT_EMAIL ||
-  'vypaxtechnologiesindia@gmail.com'
+  'vypaxtechnologies@gmail.com'
 
 export function isEmailConfigured() {
   return Boolean(process.env.RESEND_API_KEY)

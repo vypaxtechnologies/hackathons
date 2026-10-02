@@ -6,6 +6,7 @@ import { VypaxLogo } from '../brand/VypaxLogo'
 import Button from '../ui/Button'
 import useScrollLock from '../../hooks/useScrollLock'
 import { COPYRIGHT_NOTICE } from '../../config/site'
+import { PARTNER_CONTACT_PATH } from '../../config/content'
 import cn from '../../utils/classNames'
 
 const listVariants = {
@@ -17,10 +18,6 @@ const itemVariants = {
   hidden: { opacity: 0, x: 24 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }
 }
-
-// The partnership call-to-action routes into the hackathons listing rather
-// than jumping straight to an external form.
-const HACKATHON_PATH = '/hackathons'
 
 /**
  * Full-height mobile navigation panel. Locks page scroll while open, traps
@@ -111,7 +108,7 @@ export default function MobileNavDrawer({
               <Button
                 variant="primary"
                 size="md"
-                to={HACKATHON_PATH}
+                to={PARTNER_CONTACT_PATH}
                 onClick={onClose}
                 iconRight={ArrowUpRight}
                 className="w-full"

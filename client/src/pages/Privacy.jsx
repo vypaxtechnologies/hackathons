@@ -1,6 +1,14 @@
 import { useNavigate } from 'react-router-dom'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 
 export default function Privacy() {
+  useDocumentMeta({
+    title: 'Privacy Policy',
+    description:
+      'How Vypax EdTech & Hackathons collects, uses and stores the information you share with us.',
+    path: '/privacy'
+  })
+
   const navigate = useNavigate()
 
   return (

@@ -1,42 +1,22 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   AlertCircle,
-  Briefcase,
-  ClipboardList,
   Clock3,
-  Code,
-  GraduationCap,
-  Handshake,
-  Lightbulb,
   Mail,
   MapPin,
-  MessageSquare,
   Phone,
   Send,
-  Sparkles,
-  Timer,
-  Wrench
+  Sparkles
 } from 'lucide-react'
-import { CONTACT_SUBJECTS, CONTACT_SUBJECT_OTHER } from '../config/content'
+import { CONTACT_SUBJECT_OTHER, CONTACT_TOPICS } from '../config/content'
 import { CONTACT_LINKS, CONTACT_PHONES, SITE } from '../config/site'
 import { hackathon2026 } from '../config/hackathon2026'
 import useToast from '../hooks/useToast'
+import useDocumentMeta from '../hooks/useDocumentMeta'
 import contactService from '../services/contactService'
 import SectionHeading from '../components/ui/SectionHeading'
 import Button from '../components/ui/Button'
-
-const SUBJECT_ICONS = {
-  ClipboardList,
-  Lightbulb,
-  Code,
-  Timer,
-  GraduationCap,
-  Briefcase,
-  Handshake,
-  Wrench,
-  MessageSquare,
-  Sparkles
-}
 
 /** Character budget enforced client-side, matching the server's message limit. */
 const MESSAGE_MAX = 2000
@@ -44,23 +24,53 @@ const MESSAGE_MIN = 10
 
 export default function Contact() {
   const toast = useToast()
+  const [searchParams] = useSearchParams()
+
+  useDocumentMeta({
+    title: 'Contact',
+    description:
+      'Message the Vypax team about a hackathon edition, a training programme, a partnership or ' +
+      'a project. Pick a topic and it reaches the person who handles it.',
+    path: '/contact'
+  })
+
+  // The topic can be preselected through the URL — the partnership calls to
+  // action on the home page and the navbar both link here with `?topic=`. An
+  // unknown or missing value falls back to the first subject.
+  const requestedTopic = searchParams.get('topic')
+  const initialTopicId = useMemo(
+    () =>
+      CONTACT_TOPICS.some((topic) => topic.id === requestedTopic)
+        ? requestedTopic
+        : CONTACT_TOPICS[0].id,
+    [requestedTopic]
+  )
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    topicId: CONTACT_SUBJECTS[0].id,
+    topicId: initialTopicId,
     customSubject: '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
 
+  // Following a "Partner with us" link while the page is already mounted must
+  // update the selection too, not just on first render.
+  useEffect(() => {
+    setFormData((prev) =>
+      prev.topicId === initialTopicId ? prev : { ...prev, topicId: initialTopicId }
+    )
+  }, [initialTopicId])
+
   // "Something else" swaps the dropdown for a free-text subject so the visitor is
   // never forced to file an enquiry under a category that does not fit.
   const isCustomSubject = formData.topicId === CONTACT_SUBJECT_OTHER
 
   const selectedSubject = useMemo(
-    () => CONTACT_SUBJECTS.find((topic) => topic.id === formData.topicId),
+    () => CONTACT_TOPICS.find((topic) => topic.id === formData.topicId),
     [formData.topicId]
   )
 
@@ -117,7 +127,7 @@ export default function Contact() {
         name: '',
         email: '',
         phone: '',
-        topicId: CONTACT_SUBJECTS[0].id,
+        topicId: initialTopicId,
         customSubject: '',
         message: ''
       })
@@ -269,9 +279,9 @@ export default function Contact() {
                       onChange={handleChange}
                       className="w-full cursor-pointer appearance-none rounded-xl border border-white/[0.08] bg-ink-950/60 px-4 py-3 pr-11 text-base text-mist-100 transition-colors focus:border-lime-400 focus:outline-none focus:ring-1 focus:ring-lime-400/20"
                     >
-                      {CONTACT_SUBJECTS.map((topic) => (
+                      {CONTACT_TOPICS.map((topic) => (
                         <option key={topic.id} value={topic.id} className="bg-ink-900">
-                          {topic.label}
+                          {topic.optionLabel || topic.label}
                         </option>
                       ))}
                     </select>
@@ -441,41 +451,6 @@ export default function Contact() {
         className="border-t border-white/[0.07] bg-ink-950/40"
         aria-labelledby="topics-heading"
       >
-        <div className="container-page py-16 sm:py-20">
-          <SectionHeading
-            eyebrow="Before you write"
-            title="What are you getting in touch about?"
-            description="Pick a topic to know exactly what happens next."
-            headingId="topics-heading"
-            align="center"
-          />
-
-          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CONTACT_SUBJECTS.map((topic) => {
-              const Icon = SUBJECT_ICONS[topic.icon] || MessageSquare
-
-              return (
-                <li
-                  key={topic.id}
-                  className="flex gap-4 rounded-2xl border border-white/[0.08] bg-ink-900/50 p-5"
-                >
-                  <span
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-lime-400/10 text-lime-400"
-                    aria-hidden="true"
-                  >
-                    <Icon className="h-4.5 w-4.5" />
-                  </span>
-                  <div>
-                    <h3 className="font-display text-sm font-semibold text-mist-100">
-                      {topic.label}
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-mist-400">{topic.description}</p>
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
       </section>
     </>
   )

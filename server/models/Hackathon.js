@@ -105,7 +105,11 @@ const hackathonSchema = new mongoose.Schema({
 })
 
 hackathonSchema.pre('save', function(next) {
-  if ((this.isModified('title') || !this.slug) && this.title) {
+  // The slug is only derived when the document has none. It is part of the
+  // published URL for an edition — the client links to /hackathons/<slug> and
+  // the public API resolves by it — so regenerating it from a later title edit
+  // would silently break every existing link to that edition.
+  if (!this.slug && this.title) {
     this.slug = this.title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
